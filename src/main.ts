@@ -1,9 +1,13 @@
-import './style.css'
+import './main.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+document.querySelector<HTMLDivElement>('body')!.innerHTML = `
+
+  <div id="thecontainer" class="md:container md:mx-auto px-50">
+    <p>hello</p>
+  </div>
   <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="${viteLogo}" class="logo" alt="Vite logo" />
