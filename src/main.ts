@@ -2,6 +2,7 @@ import './main.css'
 import typescriptLogo from './typescript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter'
+import inventory from './DSNY_Litter_Basket_Inventory.csv'
 
 document.querySelector<HTMLDivElement>('body')!.innerHTML = `
 
@@ -24,5 +25,7 @@ document.querySelector<HTMLDivElement>('body')!.innerHTML = `
     </p>
   </div>
 `
+
+console.log(inventory[0]);
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
