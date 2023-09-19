@@ -4,6 +4,9 @@ import viteLogo from '/vite.svg'
 import { setupCounter } from './counter'
 import inventory from './DSNY_Litter_Basket_Inventory.csv'
 
+import * as d3 from 'd3';
+import { select } from 'd3';
+
 document.querySelector<HTMLDivElement>('body')!.innerHTML = `
 
   <div id="thecontainer" class="md:container md:mx-auto px-50">
@@ -26,6 +29,14 @@ document.querySelector<HTMLDivElement>('body')!.innerHTML = `
   </div>
 `
 
-console.log(inventory[0]);
-
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+
+console.log(inventory[0]);
+console.log(inventory[0].BASKETID)
+let rect = document.getElementById("thecontainer")!.getBoundingClientRect()
+
+let canvas = d3.select("#thecontainer").append<HTMLCanvasElement>("canvas");
+canvas
+  .attr("width", rect.width)
+  .attr("height", rect.width * (2/3)); // 3:2 aspect ratio
+
