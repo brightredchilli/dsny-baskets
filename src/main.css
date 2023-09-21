@@ -10,3 +10,23 @@ p {
 div#thecontainer {
   background-color: green;
 }
+
+div#leafletcontainer {
+  background-color: orange;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.fadein {
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+  /* animation-duration is set in code to a random number */
+}
