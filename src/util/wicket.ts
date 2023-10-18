@@ -1,4 +1,5 @@
 import { LatLngExpression } from 'leaflet';
+// @ts-ignore: Wkt is not typed
 import { Wkt } from 'wicket';
 
 type WicketPoint = {
