@@ -3,5 +3,8 @@ import dsv from '@rollup/plugin-dsv';
 
 export default defineConfig({
   assetsInclude: ['**/*.geojson'],
-  plugins:[dsv()]
+  plugins:[dsv()],
+  build: {
+    outDir: 'docs/'
+  }
 })
