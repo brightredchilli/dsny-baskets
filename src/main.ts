@@ -7,7 +7,6 @@ import 'leaflet.heat';
 
 import { drawPoints } from './util/drawing';
 
-
 document.querySelector<HTMLDivElement>('body')!.innerHTML = `
   <div class="bg-white dark:bg-slate-800 min-h-screen text-slate-800 dark:text-slate-50">
     <div class='container max-w-screen-lg px-10 mx-auto'>
