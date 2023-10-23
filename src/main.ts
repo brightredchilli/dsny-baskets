@@ -2,6 +2,7 @@ import './main.css'
 import inventory from './assets/inventory_clean.csv'
 
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 import { drawPoints } from './util/drawing';
 
