@@ -16,8 +16,8 @@ Bundle for production distribution.
 yarn build
 ```
 
-
 In the process of researching this, an initial attempt was made to simplify points by
-showing the roads that they intersected. This used PostGIS and the setup is documented at
+clustering and other downsampling techniques which were eventually abandoned.
+These used PostGIS and the setup is documented at:
 [postgis.md](postgis.md).
 
