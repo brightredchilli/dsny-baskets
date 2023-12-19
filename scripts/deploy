@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # docs is the distribution directory
-aws s3 sync docs s3://crunchypartoftheegg/dsny-baskets
+aws s3 sync --delete docs s3://crunchypartoftheegg/dsny-baskets
 
 # Because this website is behind a cloudfront distribution, we need to
 # invalidate the cloudfront cache everytime we deploy
