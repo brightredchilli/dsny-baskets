@@ -25,3 +25,4 @@ src/assets/nycmap.geojson
 *.njsproj
 *.sln
 *.sw?
+docs
