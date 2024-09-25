@@ -9,7 +9,7 @@ brew install osm2pgsql
 
 Thereafter, postgres can be started using:
 ```
-brew run postgresql@14 # or follow whatever version
+brew services run postgresql@14 # or follow whatever version
 ```
 
 1. Bootstrap a new postgres db:
@@ -42,6 +42,27 @@ create index baskets_geom_uniq on baskets using GIST(geom);
 
 ```
 
+Let's also include nyc census tracts. These are downloaded from here: https://www.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page
+These are shp files, so we convert them from shp to geojson using ogr2ogr:
+
+
+```
+# This must first be installed, I think it got installed via gdal related tools
+  # new-layer-name, name of the table to create \
+  # new-layer-type, tells the tool to create multi-polygons instead of polygons for the geometry type. \
+  # lco stands for layer create option. Names the geometry column(GEOMETRY_NAME), the primary key column(FID), and \
+  # PRECISION=no converts numeric values to integers. Assuming census tract data are not floating points, \
+  # we set this to NO. \
+ogr2ogr \
+  -nln nyc_census_tracts \
+  -nlt PROMOTE_TO_MULTI \
+  -lco GEOMETRY_NAME=geom \
+  -lco FID=gid \
+  -lco PRECISION=NO \
+  Pg:"dbname=osm_db host=localhost user=ying port=5432" \
+  /Users/ying/code/viz-notebooks/dsny-baskets/nyct2020_24a/nyct2020.shp
+
+```
 1. Do some data transformation on that data
 
 ```
