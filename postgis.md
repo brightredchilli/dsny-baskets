@@ -1,6 +1,4 @@
 # Instructions to set up PostGIS + Postgres
-
-1. Install postgres/postgis
 ```
 brew install postgresql
 brew install postgis
