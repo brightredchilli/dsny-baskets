@@ -40,9 +40,6 @@ These used PostGIS and the setup is documented at:
 
 # TODO
 
-run package install and verify things are still working
-change outdir from 'docs' to 'dist'
-
 instructions for obtaining data.
 
 
