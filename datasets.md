@@ -63,6 +63,13 @@ create table baskets
 create unique index baskets_id_uniq on baskets(id);
 create index baskets_geom_uniq on baskets using GIST(geom);
 \copy baskets(id,type,lat,lng) FROM './src/assets/inventory_clean.csv' DELIMITER ',' CSV HEADER
+
+update baskets b
+set geom = (
+  select st_transform(st_setsrid(st_makepoint(b1.lng, b1.lat), 4326), 3857)
+  from baskets b1
+  where b1.id = b.id
+);
 ```
 
 
