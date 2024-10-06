@@ -7,7 +7,8 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "deploy": "./scripts/deploy",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dsny": "node scripts/parse_raw_csv.js"
   },
   "devDependencies": {
     "@rollup/plugin-dsv": "^3.0.2",

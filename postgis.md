@@ -3,11 +3,25 @@
 brew install postgresql
 brew install postgis
 brew install osm2pgsql
+brew install osmium
 ```
 
 Thereafter, postgres can be started using:
 ```
-brew services run postgresql@14 # or follow whatever version
+brew services run postgresql@17 # or follow whatever version
+```
+Troubleshooting - if postgres doesn't boot, try either doing
+```
+brew services restart postgresql@17 # or follow whatever version
+
+```
+
+
+or
+
+```
+# removing the pid file associated, then runing the restart command again
+rm /opt/homebrew/var/postgresql@17/postmaster.pi
 ```
 
 1. Bootstrap a new postgres db:
@@ -16,6 +30,7 @@ brew services run postgresql@14 # or follow whatever version
 createdb osm_db
 psql -d osm_db -c "CREATE EXTENSION postgis;" # enables the postgis extension
 ```
+
 1. Load nyc_roads_only.osm.pbf into the postgres db.
 
 ```

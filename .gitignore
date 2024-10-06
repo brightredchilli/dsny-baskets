@@ -27,3 +27,5 @@ src/assets/nycmap.geojson
 *.sln
 *.sw?
 dist
+
+data

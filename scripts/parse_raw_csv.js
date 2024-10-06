@@ -4,7 +4,7 @@ import { cwd } from 'process';
 import { resolve } from 'path';
 
 
-const csvPath = resolve(cwd(), 'src', 'assets', 'DSNY_Litter_Basket_Inventory.csv');
+const csvPath = resolve(cwd(), 'data', 'inventory.csv');
 const csvOutPath = resolve(cwd(), 'src', 'assets', 'inventory_clean.csv');
 const fileStream = createReadStream(csvPath);
 
