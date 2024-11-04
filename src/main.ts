@@ -11,7 +11,7 @@ document.querySelector<HTMLDivElement>('body')!.innerHTML = `
     <div class='container max-w-screen-lg md:px-10 mx-auto'>
       
       <h1 class='text-4xl text-left pt-12 mb-5'>
-        How is easy is it for you to keep your city clean?
+        How easy is it for you to keep your city clean?
       </h1>
 
       <div class="pt-4 lg:pr-20">
