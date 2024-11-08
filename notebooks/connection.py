@@ -25,7 +25,8 @@ class Connection:
                     res = connection.execute(text(sql))
                     if res.returns_rows:
                         df = pd.DataFrame(res.fetchall())
-                        df.columns = res.keys()
+                        
+                        # df.columns = res.keys()
                         return df
                 except ProgrammingError as e:
                     print(e)

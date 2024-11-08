@@ -75,27 +75,11 @@ set geom = (
 
 ## Get all the roads in nyc
 
-First, run this command in Overpass Turbo:
+To get all the roads in nyc:
 
 ```
-[out:json][timeout:25];
-
-(
-  way["highway"="footway"]({{bbox}});
-  way["footway"="sidewalk"]({{bbox}});
-);
-
-(
-  ._;
-  >;
-);
-out skel;
+python scripts/fetch_ways.py
 ```
-
-Make sure the map is centered in nyc and covers the 5 boros.
-
-
-Export and download and move to data/nyc_footpaths.geojson
 
 Then run:
 ```
@@ -103,9 +87,16 @@ osmium cat data/nyc_footpaths.osm --output data/nyc_footpaths.osm.pbf
 
 ```
 
-1. Then load the pbf file into the db
+hen load the pbf file into the db
 
 ```
 osm2pgsql -c -d osm_db -H localhost --output=flex -S scripts/osm2pgsql_style.lua data/nyc_footpaths.osm.pbf
 ```
+
+## Census tracts
+
+NYC census tract boundaries can be helpful for debugging and visualizing NYC on a map. These are obtained from 
+https://www.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page, extracted, then read into a proper 
+page.
+
 

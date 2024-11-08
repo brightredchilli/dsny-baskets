@@ -1,9 +1,11 @@
 #!/bin/bash
 
+
 export AWS_PROFILE=yingquantan-admin
 # dist is the distribution directory
 aws s3 sync --delete dist s3://crunchypartoftheegg/dsny-baskets
 
+echo "invalidating cloudfront"
 # Because this website is behind a cloudfront distribution, we need to
 # invalidate the cloudfront cache everytime we deploy
 aws cloudfront create-invalidation --distribution-id E3QT85KXOB88Q --paths '/dsny-baskets'
