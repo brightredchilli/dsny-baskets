@@ -45,11 +45,7 @@ out;
 
 print("fetching data, takes 10-15 seconds...")
 url = "https://overpass-api.de/api/interpreter"
-filename = "data/nyc_footpaths_updated.osm"
+filename = "data/nyc_footpaths.osm"
 
 resp = requests.post(url, data={"data": overpassql}, stream=True)
 write_to_file(resp, filename)
-
-# resp = requests.post(url, {"data": overpassql})
-# with open(filename, "w") as f:
-#     f.write(resp.text)

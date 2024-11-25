@@ -1,54 +1,5 @@
-# Instructions to set up PostGIS + Postgres
-```
-brew install postgresql
-brew install postgis
-brew install osm2pgsql
-brew install osmium
-```
-
-Thereafter, postgres can be started using:
-```
-brew services run postgresql@17 # or follow whatever version
-```
-Troubleshooting - if postgres doesn't boot, try either doing
-```
-brew services restart postgresql@17 # or follow whatever version
-
-```
-
-
-or
-
-```
-# removing the pid file associated, then runing the restart command again
-rm /opt/homebrew/var/postgresql@17/postmaster.pi
-```
-
-1. Bootstrap a new postgres db:
-
-```
-createdb osm_db
-psql -d osm_db -c "CREATE EXTENSION postgis;" # enables the postgis extension
-```
-
-1. Load nyc_roads_only.osm.pbf into the postgres db.
-
-```
-osm2pgsql -c -d osm_db -H localhost -S /opt/homebrew/opt/osm2pgsql/share/osm2pgsql/default.style "$(pwd)/src/assets/nyc_roads_only.osm.pbf"
-```
-
-1. Create a new table to accomodate the basket location data
-```
-drop table if exists baskets;
-create table baskets
-(id integer, type char(5), lat double precision, lng double precision, geom geometry(POINT, 3857));
-
-create unique index baskets_id_uniq on baskets(id);
-create index baskets_geom_uniq on baskets using GIST(geom);
-
-```
-
-1. Load the points from inventory_clean.csv into postgres, transforming them from WGS 84(ESPG 4326), to a New York specific CRS.
+1. Load the points from inventory_clean.csv into postgres, transforming them from WGS 84(ESPG 4326), to a New York 
+specific CRS.
 
 ```
 \copy baskets(id,type,lat,lng) FROM './src/assets/inventory_clean.csv' DELIMITER ',' CSV HEADER
