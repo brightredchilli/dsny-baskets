@@ -99,4 +99,14 @@ NYC census tract boundaries can be helpful for debugging and visualizing NYC on 
 https://www.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page, extracted, then read into a proper 
 page.
 
+```
+ogr2ogr \
+  -nln nyc_census_tracts \
+  -nlt PROMOTE_TO_MULTI \
+  -lco GEOMETRY_NAME=geom \
+  -lco FID=gid \
+  -lco PRECISION=NO \
+  Pg:"dbname=osm_db host=localhost user=ying port=5432" \
+  data/nyct2020_24c/nyct2020.shp
+```
 

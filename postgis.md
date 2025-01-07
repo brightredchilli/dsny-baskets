@@ -12,8 +12,8 @@ These are shp files, so we convert them from shp to geojson using ogr2ogr:
 
 ```
 # This must first be installed, I think it got installed via gdal related tools
-  # new-layer-name, name of the table to create \
-  # new-layer-type, tells the tool to create multi-polygons instead of polygons for the geometry type. \
+  # nln, new-layer-name, name of the table to create \
+  # nlt, new-layer-type, tells the tool to create multi-polygons instead of polygons for the geometry type. \
   # lco stands for layer create option. Names the geometry column(GEOMETRY_NAME), the primary key column(FID), and \
   # PRECISION=no converts numeric values to integers. Assuming census tract data are not floating points, \
   # we set this to NO. \
