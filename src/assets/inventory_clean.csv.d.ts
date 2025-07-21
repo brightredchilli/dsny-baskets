@@ -1,4 +1,4 @@
-declare type DSNYBasket = {
+export declare type DSNYBasket = {
   basketId: number,
   basketType: string,
   lat: number,

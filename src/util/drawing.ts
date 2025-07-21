@@ -1,4 +1,5 @@
-import { LatLngLiteral, Map, bounds, LatLngBounds, latLngBounds, imageOverlay, circle } from 'leaflet';
+import { Map, bounds, LatLngBounds, latLngBounds, imageOverlay, circle } from 'leaflet';
+import { LatLngLiteral } from 'types/latlng';
 
 const canvas = document.createElement('canvas');
 canvas.width = 500;
@@ -54,12 +55,12 @@ const drawPoints = async function(arr: LatLngLiteral[], map: Map) {
 
   const pxInMeter = map.distance(p1, p2);
 
-  const radiusInPx = Math.max(Math.ceil(radiusInM/pxInMeter), 1);
+  const radiusInPx = Math.max(Math.ceil(radiusInM / pxInMeter), 1);
 
   console.log(`px in meter = ${pxInMeter}`)
   console.log(`radius in px = ${radiusInPx}`)
 
-  ctx.fillStyle = 'red';'#306e10';//'#224d0c';
+  ctx.fillStyle = 'red'; '#306e10';//'#224d0c';
   for (const latlng of arr) {
     const pt = map.latLngToContainerPoint(latlng).subtract(origin).multiplyBy(scaleFactor);
     ctx.beginPath();
@@ -95,7 +96,7 @@ const drawPoints = async function(arr: LatLngLiteral[], map: Map) {
 
 const drawNaivePoints = async function(arr: LatLngLiteral[], map: Map) {
   console.log(arr.length);
-  arr.forEach(({lat, lng}) => {
+  arr.forEach(({ lat, lng }) => {
     circle([lat, lng], {
       color: 'red',
       weight: 0.1,
