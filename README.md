@@ -12,9 +12,11 @@ Requirements
 
 ```
 asdf install nodejs ...
+asdf set --home nodejs <version>
 corepack enable
 corepack install --global yarn@stable
 asdf reshim nodejs
+yarn install
 ```
 
 Run the dev server at localhost:5173.
@@ -29,13 +31,12 @@ yarn build
 
 # Obtaining and cleaning data
 
-There are a couple of datasets used for this project, documented below
+To be able to update the data for the project, follow instructions in [datasets.md](datasets.md)
 
 In the process of researching this, an initial attempt was made to simplify points by
 clustering and other downsampling techniques which were eventually abandoned.
 These used PostGIS and the setup is documented at:
 [postgis.md](postgis.md).
-
 
 
 # TODO

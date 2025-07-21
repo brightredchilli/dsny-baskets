@@ -87,7 +87,7 @@ osmium cat data/nyc_footpaths.osm --output data/nyc_footpaths.osm.pbf
 
 ```
 
-hen load the pbf file into the db
+Then load the pbf file into the db
 
 ```
 osm2pgsql -c -d osm_db -H localhost --output=flex -S scripts/osm2pgsql_style.lua data/nyc_footpaths.osm.pbf

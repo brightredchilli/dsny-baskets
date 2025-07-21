@@ -4,6 +4,7 @@ import { cwd } from 'process';
 import { resolve } from 'path';
 
 
+// This script parses and cleans the raw data download from the NYC OpenData portal
 const csvPath = resolve(cwd(), 'data', 'inventory.csv');
 const csvOutPath = resolve(cwd(), 'src', 'assets', 'inventory_clean.csv');
 const fileStream = createReadStream(csvPath);
