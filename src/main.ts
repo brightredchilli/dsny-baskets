@@ -1,8 +1,9 @@
 import './main.css'
 import inventory from './assets/inventory_clean.csv'
 
-import { LatLngBoundsLiteral, LatLngTuple } from 'src/types/latlng';
+import { LatLngBoundsLiteral, LatLng } from 'src/types/latlng';
 import { setupLeaflet } from 'src/components/leaflet';
+import { setupContainer } from './components/maplibregl';
 
 document.querySelector<HTMLDivElement>('body')!.innerHTML = `
   <div class="bg-white dark:bg-slate-800 min-h-screen text-slate-800 dark:text-slate-50">
@@ -26,7 +27,9 @@ document.querySelector<HTMLDivElement>('body')!.innerHTML = `
   </div>
 `
 
-const nyc_center = [40.730610, -73.935242] as LatLngTuple;
-const nyc_bounds = [[40.38264, -74.31015], [41.14143, -73.22319]] as LatLngBoundsLiteral;
+const nyc_center: LatLng = { lat: 40.730610, lng: -73.935242 }
+const nyc_bounds: LatLngBoundsLiteral = [{ lat: 40.38264, lng: -74.31015 }, { lat: 41.14143, lng: -73.22319 }]
+
 let container = document.getElementById("container") as HTMLDivElement;
-setupLeaflet(container, nyc_center, nyc_bounds, inventory);
+// setupLeaflet(container, nyc_center, nyc_bounds, inventory);
+setupContainer(container, nyc_center, nyc_bounds, inventory);

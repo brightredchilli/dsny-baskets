@@ -3134,6 +3134,7 @@ __metadata:
   dependencies:
     "@rollup/plugin-dsv": "npm:^3.0.2"
     "@types/d3": "npm:^7.4.0"
+    "@types/geojson": "npm:^7946.0.16"
     "@types/leaflet": "npm:^1.9.4"
     "@types/leaflet.heat": "npm:^0.2.2"
     "@types/node": "npm:^24.0.15"
