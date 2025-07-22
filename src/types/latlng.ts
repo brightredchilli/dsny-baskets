@@ -13,4 +13,4 @@ export type LatLngTuple = [number, number];
 
 export type LatLngExpression = LatLng | LatLngLiteral | LatLngTuple;
 
-export type LatLngBoundsLiteral = LatLngExpression[];
+export type LatLngBoundsLiteral = LatLngLiteral[];

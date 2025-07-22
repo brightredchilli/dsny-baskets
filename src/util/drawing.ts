@@ -1,5 +1,6 @@
-import { Map, bounds, LatLngBounds, latLngBounds, imageOverlay, circle } from 'leaflet';
-import { LatLngLiteral } from 'types/latlng';
+import { Map, bounds, LatLngBounds, latLngBounds, imageOverlay } from 'leaflet';
+import { Color } from 'maplibre-gl';
+import { LatLngLiteral } from 'src/types/latlng';
 
 const canvas = document.createElement('canvas');
 canvas.width = 500;
@@ -19,7 +20,7 @@ const getExtent = function(arr: LatLngLiteral[]) {
   return arr.reduce((bounds, basket) => bounds.extend(basket), initialBounds);
 }
 
-const drawPoints = async function(arr: LatLngLiteral[], map: Map) {
+const drawPoints = async function(arr: LatLngLiteral[], map: Map, color: string) {
 
   // we will create a a graphic of length whatever, no matter what the map bounds are
   // how this will work is
@@ -60,7 +61,7 @@ const drawPoints = async function(arr: LatLngLiteral[], map: Map) {
   console.log(`px in meter = ${pxInMeter}`)
   console.log(`radius in px = ${radiusInPx}`)
 
-  ctx.fillStyle = 'red'; '#306e10';//'#224d0c';
+  ctx.fillStyle = color; '#306e10';//'#224d0c';
   for (const latlng of arr) {
     const pt = map.latLngToContainerPoint(latlng).subtract(origin).multiplyBy(scaleFactor);
     ctx.beginPath();
@@ -94,35 +95,6 @@ const drawPoints = async function(arr: LatLngLiteral[], map: Map) {
   return p;
 }
 
-const drawNaivePoints = async function(arr: LatLngLiteral[], map: Map) {
-  console.log(arr.length);
-  arr.forEach(({ lat, lng }) => {
-    circle([lat, lng], {
-      color: 'red',
-      weight: 0.1,
-      // fillColor: '#f03',
-      radius: 0.001
-    }).addTo(map);
-  });
-}
-
-const drawSlowPoints = async function(arr: LatLngLiteral[], _map: Map) {
-  // let container = map.getPane('overlayPane')!;
-  // const svg = document.createElement('svg') as unknown as SVGSVGElement;
-  // container.appendChild(svg);
-  // svg.setAttribute('width', '400');
-  // svg.setAttribute('height', '400');
-  // svg.setAttribute('viewBox', '0 0 400 400');
-  // svg.classList.add('leaflet-zoom-animated');
-  let svg = document.querySelector('.leaflet-overlay-pane svg')!
-  for (let _ of arr) {
-    const c = document.createElement('path');
-    c.classList.add('leaflet-interactive');
-    c.setAttribute('fill', 'red');
-    c.setAttribute('d', 'M0 0');
-    svg.appendChild(c);
-  }
-}
 
 const isMobileClient = () => {
   const ua = window.navigator.userAgent;
@@ -132,4 +104,4 @@ const isMobileClient = () => {
 }
 
 
-export { drawPoints, drawNaivePoints, drawSlowPoints };
+export { drawPoints };

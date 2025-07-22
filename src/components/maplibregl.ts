@@ -4,6 +4,7 @@ import type { DSNYBasket } from 'src/assets/inventory_clean.csv.d.ts';
 import { StyleSpecification, Map, SourceSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Feature, FeatureCollection } from 'geojson';
+import { DSNY_COLOR } from './styles';
 
 const style: StyleSpecification = {
   version: 8,
@@ -74,7 +75,7 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
       'type': 'circle',
       'source': 'baskets',
       'paint': {
-        'circle-color': 'rgb(56,123,86)',
+        'circle-color': DSNY_COLOR,
         'circle-radius': 1.2,
         'circle-opacity': 0.5
       }
@@ -86,7 +87,7 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
       'source': 'baskets',
       'minzoom': 13,
       'paint': {
-        'circle-color': 'rgb(56,123,86)',
+        'circle-color': DSNY_COLOR,
         'circle-radius': 2,
         'circle-opacity': 0.5
       }
@@ -98,7 +99,7 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
       'source': 'baskets',
       'minzoom': 14,
       'paint': {
-        'circle-color': 'rgb(56,123,86)',
+        'circle-color': DSNY_COLOR,
         'circle-radius': 2.5,
         'circle-opacity': 0.8
       }
@@ -110,7 +111,7 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
       'source': 'baskets',
       'minzoom': 15,
       'paint': {
-        'circle-color': 'rgb(56,123,86)',
+        'circle-color': DSNY_COLOR,
         'circle-radius': 3,
         'circle-opacity': 0.8
       }
