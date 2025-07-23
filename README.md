@@ -27,6 +27,9 @@ yarn dev
 Bundle for production distribution.
 ```
 yarn build
+
+# This script requires AWS credentials to be set - they are provided by op cli on my machine
+op run -- yarn deploy
 ```
 
 # Obtaining and cleaning data

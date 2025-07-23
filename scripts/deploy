@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-export AWS_PROFILE=yingquantan-admin
 # dist is the distribution directory
 aws s3 sync --delete dist s3://crunchypartoftheegg/dsny-baskets
 
