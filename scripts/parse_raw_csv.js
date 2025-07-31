@@ -11,7 +11,7 @@ const fileStream = createReadStream(csvPath);
 
 // Note: we use the crlfDelay option to recognize all instances of CR LF
 // ('\r\n') in input.txt as a single line break.
-const rl = createInterface({input: fileStream, crlfDelay: Infinity, });
+const rl = createInterface({ input: fileStream, crlfDelay: Infinity, });
 
 
 writeFile(csvOutPath, '', (err) => {
@@ -26,11 +26,11 @@ for await (const line of rl) {
     firstLine = false;
     console.log(`Header: ${line}`);
     const header = line.split(',');
-    console.log(header.map((x,idx) => `[${idx}]: ${x}`));
-    appendFile(csvOutPath, 'basketId,basketType,lat,lng\n', 'utf8', (err) => {
+    console.log(header.map((x, idx) => `[${idx}]: ${x}`));
+    appendFile(csvOutPath, 'basketId,basketType,basketOwner,lat,lng\n', 'utf8', (err) => {
       if (err) {
         console.error('An error occurred:', err);
-      }  
+      }
     });
     continue;
   }
@@ -39,16 +39,17 @@ for await (const line of rl) {
 
   const basketId = tokens[0];
   const basketType = tokens[1];
+  const basketOwner = tokens[1];
   const pointStr = tokens[13];
   let m = pointStr.match(/POINT \((.*) (.*)\)$/) ?? [];
   let lng = Number(m[1]);
   let lat = Number(m[2]);
 
   let data = `${basketId},${basketType},${lat},${lng}` + "\n";
-  
+
   appendFile(csvOutPath, data, 'utf8', (err) => {
     if (err) {
       console.error('An error occurred:', err);
-    }  
+    }
   });
 }

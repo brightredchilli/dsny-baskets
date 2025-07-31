@@ -14,6 +14,7 @@ const style: StyleSpecification = {
       tiles: [
         // 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
         'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png'
+
       ],
       tileSize: 256,
       attribution:
@@ -41,9 +42,11 @@ function convertBasketToFeature(c: DSNYBasket): Feature {
 }
 
 function convertBasketsToFeatureCollection(arr: DSNYBasket[]): FeatureCollection {
+  let a = arr.map(convertBasketToFeature)
+  console.log(a.length)
   return {
     type: 'FeatureCollection',
-    features: arr.map(convertBasketToFeature)
+    features: a
   };
 }
 
@@ -55,15 +58,16 @@ function convertBasketsToSource(arr: DSNYBasket[]): SourceSpecification {
 }
 
 export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: DSNYBasket[]) {
-  let rect = container.getBoundingClientRect();
-  container.style.height = `${rect.width * 2 / 3}px`; // 3:2 aspect ratio
+  // let rect = container.getBoundingClientRect();
+  // container.style.height = `${rect.width * 2 / 3}px`; // 3:2 aspect ratio
 
   const map = new Map({
     container: container, // container id
     // style: 'https://demotiles.maplibre.org/style.json', // style URL
-    style: style,
+    style: "https://api.maptiler.com/maps/777daf37-50e3-4c3c-a645-c13a66e712e3/style.json?key=b4p171PlFelOVzmDP7eS",
+    // style: style,
     center: center, // starting position [lng, lat]
-    zoom: 10, // starting zoom
+    zoom: 11, // starting zoom
     maxBounds: [bounds[0], bounds[1]]
   });
 
