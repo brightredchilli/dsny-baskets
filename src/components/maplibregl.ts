@@ -6,56 +6,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { Feature, FeatureCollection } from 'geojson';
 import { DSNY_COLOR } from './styles';
 
-const style: StyleSpecification = {
-  version: 8,
-  sources: {
-    osm: {
-      type: 'raster',
-      tiles: [
-        // 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}.png'
+import { convertBasketsToFeatureCollection } from 'src/util/model';
 
-      ],
-      tileSize: 256,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    }
-  },
-  layers: [
-    {
-      id: 'osm',
-      type: 'raster',
-      source: 'osm'
-    }
-  ]
-}
-
-function convertBasketToFeature(c: DSNYBasket): Feature {
-  return {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [c.lng, c.lat] // GeoJSON uses [lng, lat]
-    },
-    properties: {}
-  };
-}
-
-function convertBasketsToFeatureCollection(arr: DSNYBasket[]): FeatureCollection {
-  let a = arr.map(convertBasketToFeature)
-  console.log(a.length)
-  return {
-    type: 'FeatureCollection',
-    features: a
-  };
-}
-
-function convertBasketsToSource(arr: DSNYBasket[]): SourceSpecification {
-  return {
-    type: 'geojson',
-    data: convertBasketsToFeatureCollection(arr)
-  };
-}
 
 function addPoints(points: SourceSpecification, map: Map) {
   map.addSource('baskets', points)
@@ -107,7 +59,21 @@ function addPoints(points: SourceSpecification, map: Map) {
   });
 }
 
-export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: Promise<DSNYBasket[]>) {
+function convertBasketsToSource(arr: DSNYBasket[]): SourceSpecification {
+  return {
+    type: 'geojson',
+    data: convertBasketsToFeatureCollection(arr)
+  };
+}
+
+function getSourceSpecification(fc: FeatureCollection): SourceSpecification {
+  return {
+    type: 'geojson',
+    data: fc
+  };
+}
+
+export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: Promise<DSNYBasket[]> | FeatureCollection) {
   // let rect = container.getBoundingClientRect();
   // container.style.height = `${rect.width * 2 / 3}px`; // 3:2 aspect ratio
 
@@ -122,9 +88,15 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
   });
 
 
-  const pointsPromise = inventory.then(i => convertBasketsToSource(i))
-  map.on('load', () => {
-    // map.addSource('baskets', points)
-    pointsPromise.then(p => addPoints(p, map))
-  })
+  if (inventory instanceof Promise) {
+    const pointsPromise = inventory.then(i => convertBasketsToSource(i))
+    map.on('load', () => {
+      pointsPromise.then(p => addPoints(p, map))
+    })
+  } else {
+    map.on('load', () => {
+      addPoints(getSourceSpecification(inventory), map)
+    })
+  }
+
 }

@@ -3,24 +3,23 @@ import './main.css'
 import { LatLngBoundsLiteral, LatLng } from 'src/types/latlng';
 import { setupLeaflet } from 'src/components/leaflet';
 import { setupContainer } from './components/maplibregl';
+import inventoryfeaturecollection from 'src/assets/inventory_geojson.json'
 import { DSNYBasket } from './types/inventory';
 import { measurePerf } from './util/observability';
+import { FeatureCollection } from 'geojson';
 
-const inventoryPromise = (() => {
-  // const obs = measurePerf('worker load')
-  const worker = new Worker(new URL('./inventory_worker.ts', import.meta.url), { type: 'module' });
-
-  const inventory: Promise<DSNYBasket[]> = new Promise((resolve, reject) => {
-    worker.onmessage = (e: MessageEvent<DSNYBasket[]>) => {
-      // obs()
-      resolve(e.data)
-    }
-    worker.onmessageerror = e => {
-      reject(e)
-    }
-  })
-  return inventory
-})();
+// const worker = new Worker(new URL('./inventory_worker.ts', import.meta.url), { type: 'module' });
+// const obs = measurePerf('worker load')
+//
+// const inventoryPromise: Promise<DSNYBasket[]> = new Promise((resolve, reject) => {
+//   worker.onmessage = (e: MessageEvent<DSNYBasket[]>) => {
+//     obs()
+//     resolve(e.data)
+//   }
+//   worker.onmessageerror = e => {
+//     reject(e)
+//   }
+// })
 
 document.querySelector<HTMLDivElement>('body')!.innerHTML
   = `
@@ -54,4 +53,4 @@ const nyc_bounds: LatLngBoundsLiteral = [{ lat: 40.38264, lng: -74.33015 }, { la
 // parse the csv in a worker thread, and return the results in a promise
 let container = document.getElementById("container") as HTMLDivElement;
 // setupLeaflet(container, nyc_center, nyc_bounds, inventory);
-setupContainer(container, nyc_center, nyc_bounds, inventoryPromise);
+setupContainer(container, nyc_center, nyc_bounds, inventoryfeaturecollection as FeatureCollection);

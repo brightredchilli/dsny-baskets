@@ -7,6 +7,7 @@ import { resolve } from 'path';
 // This script parses and cleans the raw data download from the NYC OpenData portal
 const csvPath = resolve(cwd(), 'data', 'inventory.csv');
 const csvOutPath = resolve(cwd(), 'src', 'assets', 'inventory_clean.csv');
+const geoJsonOutPath = resolve(cwd(), 'src', 'assets', 'inventory_geojson.json');
 const fileStream = createReadStream(csvPath);
 
 // Note: we use the crlfDelay option to recognize all instances of CR LF
@@ -20,7 +21,28 @@ writeFile(csvOutPath, '', (err) => {
   }
 });
 
+function toFeature(lat, lng) {
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [lng, lat] // GeoJSON uses [lng, lat]
+    },
+    properties: {}
+  };
+}
+
+function toGeoJSON(features) {
+  const fc = {
+    type: 'FeatureCollection',
+    features: features
+  };
+
+  return JSON.stringify(fc, null, 2)
+}
+
 let firstLine = true;
+let features = []
 for await (const line of rl) {
   if (firstLine) {
     firstLine = false;
@@ -41,10 +63,13 @@ for await (const line of rl) {
   const basketType = tokens[1];
   const pointStr = tokens[13];
   let m = pointStr.match(/POINT \((.*) (.*)\)$/) ?? [];
-  let lng = Number(m[1]);
-  let lat = Number(m[2]);
+  let lng = parseFloat(m[1]);
+  let lat = parseFloat(m[2]);
 
-  let data = `${basketId},${basketType},${basketOwner},${lat},${lng}` + "\n";
+  features.push(toFeature(lat, lng))
+
+
+  let data = `${basketId},${basketType},${lat},${lng}` + "\n";
 
   appendFile(csvOutPath, data, 'utf8', (err) => {
     if (err) {
@@ -52,3 +77,9 @@ for await (const line of rl) {
     }
   });
 }
+
+writeFile(geoJsonOutPath, toGeoJSON(features), (err) => {
+  if (err) {
+    console.log(`Error writing geojson: ${err}`);
+  }
+});
