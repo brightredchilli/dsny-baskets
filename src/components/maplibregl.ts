@@ -1,5 +1,5 @@
 import { LatLngBoundsLiteral, LatLngExpression } from 'src/types/latlng';
-import type { DSNYBasket } from 'src/assets/inventory_clean.csv.d.ts';
+import type { DSNYBasket } from 'src/types/inventory';
 
 import { StyleSpecification, Map, SourceSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -57,7 +57,57 @@ function convertBasketsToSource(arr: DSNYBasket[]): SourceSpecification {
   };
 }
 
-export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: DSNYBasket[]) {
+function addPoints(points: SourceSpecification, map: Map) {
+  map.addSource('baskets', points)
+  map.addLayer({
+    'id': 'baskets',
+    'type': 'circle',
+    'source': 'baskets',
+    'paint': {
+      'circle-color': DSNY_COLOR,
+      'circle-radius': 1.2,
+      'circle-opacity': 0.5
+    }
+  });
+
+  map.addLayer({
+    'id': 'baskets-zoomed-1',
+    'type': 'circle',
+    'source': 'baskets',
+    'minzoom': 13,
+    'paint': {
+      'circle-color': DSNY_COLOR,
+      'circle-radius': 2,
+      'circle-opacity': 0.5
+    }
+  });
+
+  map.addLayer({
+    'id': 'baskets-zoomed-2',
+    'type': 'circle',
+    'source': 'baskets',
+    'minzoom': 14,
+    'paint': {
+      'circle-color': DSNY_COLOR,
+      'circle-radius': 2.5,
+      'circle-opacity': 0.8
+    }
+  });
+
+  map.addLayer({
+    'id': 'baskets-zoomed-3',
+    'type': 'circle',
+    'source': 'baskets',
+    'minzoom': 15,
+    'paint': {
+      'circle-color': DSNY_COLOR,
+      'circle-radius': 3,
+      'circle-opacity': 0.8
+    }
+  });
+}
+
+export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: Promise<DSNYBasket[]>) {
   // let rect = container.getBoundingClientRect();
   // container.style.height = `${rect.width * 2 / 3}px`; // 3:2 aspect ratio
 
@@ -71,54 +121,10 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
     maxBounds: [bounds[0], bounds[1]]
   });
 
-  const points = convertBasketsToSource(inventory)
+
+  const pointsPromise = inventory.then(i => convertBasketsToSource(i))
   map.on('load', () => {
-    map.addSource('baskets', points)
-    map.addLayer({
-      'id': 'baskets',
-      'type': 'circle',
-      'source': 'baskets',
-      'paint': {
-        'circle-color': DSNY_COLOR,
-        'circle-radius': 1.2,
-        'circle-opacity': 0.5
-      }
-    });
-
-    map.addLayer({
-      'id': 'baskets-zoomed-1',
-      'type': 'circle',
-      'source': 'baskets',
-      'minzoom': 13,
-      'paint': {
-        'circle-color': DSNY_COLOR,
-        'circle-radius': 2,
-        'circle-opacity': 0.5
-      }
-    });
-
-    map.addLayer({
-      'id': 'baskets-zoomed-2',
-      'type': 'circle',
-      'source': 'baskets',
-      'minzoom': 14,
-      'paint': {
-        'circle-color': DSNY_COLOR,
-        'circle-radius': 2.5,
-        'circle-opacity': 0.8
-      }
-    });
-
-    map.addLayer({
-      'id': 'baskets-zoomed-3',
-      'type': 'circle',
-      'source': 'baskets',
-      'minzoom': 15,
-      'paint': {
-        'circle-color': DSNY_COLOR,
-        'circle-radius': 3,
-        'circle-opacity': 0.8
-      }
-    });
+    // map.addSource('baskets', points)
+    pointsPromise.then(p => addPoints(p, map))
   })
 }

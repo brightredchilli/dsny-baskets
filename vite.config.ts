@@ -4,11 +4,14 @@ import path from 'path';
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  assetsInclude: ['**/*.geojson'],
-  plugins: [dsv(), tailwindcss()],
+  assetsInclude: ['**/*.geojson', '**/*.csv'],
+  plugins: [tailwindcss()],
   base: '/dsny-baskets', // github page is served at brightredchilli.github.io/dsny-baskets
   build: {
     outDir: 'dist/'
+  },
+  worker: {
+    format: 'es' // needed because worker has a top level await, and iife(default output format) is not compatible with it
   },
   resolve: {
     alias: [

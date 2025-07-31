@@ -1,7 +1,7 @@
 import { drawPoints } from "../util/drawing";
 import { Map, circle } from 'leaflet';
 import { LatLng, LatLngBoundsLiteral, LatLngLiteral } from 'src/types/latlng';
-import type { DSNYBasket } from 'src/assets/inventory_clean.csv.d.ts';
+import type { DSNYBasket } from 'src/types/inventory';
 import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import { DSNY_COLOR } from "./styles";
