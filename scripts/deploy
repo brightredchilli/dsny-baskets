@@ -3,8 +3,29 @@
 # dist is the distribution directory
 aws s3 sync --delete dist s3://crunchypartoftheegg/dsny-baskets
 
-echo "invalidating cloudfront"
+DISTRIBUTION_ID=E3QT85KXOB88Q
+echo "Invalidating cloudfront"
 # Because this website is behind a cloudfront distribution, we need to
 # invalidate the cloudfront cache everytime we deploy
-aws cloudfront create-invalidation --distribution-id E3QT85KXOB88Q --paths '/dsny-baskets'
+INVALIDATION_ID=$(aws cloudfront create-invalidation \
+  --distribution-id "$DISTRIBUTION_ID" \
+  --paths "/dsny-baskets/*" \
+  --output json | jq -r '.Invalidation.Id')
+
+while true; do
+  STATUS=$(aws cloudfront get-invalidation \
+    --distribution-id "$DISTRIBUTION_ID" \
+    --id "$INVALIDATION_ID" \
+    --query 'Invalidation.Status' \
+    --output text)
+
+  echo "Invalidation status: $STATUS, sleeping for 5s"
+
+  if [ "$STATUS" == "Completed" ]; then
+    echo "Invalidation completed."
+    break
+  fi
+
+  sleep 5
+done
 
