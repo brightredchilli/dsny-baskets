@@ -4,9 +4,9 @@ import type { DSNYBasket } from 'src/types/inventory';
 import { StyleSpecification, Map, SourceSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Feature, FeatureCollection } from 'geojson';
+import style from './maptilerstyle'
 import { DSNY_COLOR } from './styles';
 
-<<<<<<< HEAD
 import { convertBasketsToFeatureCollection } from 'src/util/model';
 
 
@@ -34,9 +34,6 @@ function addPoints(points: SourceSpecification, map: Map) {
       'circle-opacity': 0.5
     }
   });
-=======
-import style from './maptilerstyle'
->>>>>>> a958a5a (inlined maptiler style)
 
   map.addLayer({
     'id': 'baskets-zoomed-2',
@@ -77,7 +74,8 @@ function getSourceSpecification(fc: FeatureCollection): SourceSpecification {
   };
 }
 
-export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: Promise<DSNYBasket[]> | FeatureCollection) {
+// different types of 'inventory' reflect the different approaches used when optimizing
+export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: Promise<DSNYBasket[]> | FeatureCollection | Promise<FeatureCollection>) {
   // let rect = container.getBoundingClientRect();
   // container.style.height = `${rect.width * 2 / 3}px`; // 3:2 aspect ratio
   //
@@ -92,26 +90,14 @@ export function setupContainer(container: HTMLDivElement, center: LatLngExpressi
     maxBounds: [bounds[0], bounds[1]]
   });
 
-<<<<<<< HEAD
-=======
-
-  const points = convertBasketsToSource(inventory)
-  map.on('load', () => {
-    map.addSource('baskets', points)
-    map.addLayer({
-      'id': 'baskets',
-      'type': 'circle',
-      'source': 'baskets',
-      'paint': {
-        'circle-color': DSNY_COLOR,
-        'circle-radius': 1.2,
-        'circle-opacity': 0.5
-      }
-    });
->>>>>>> a958a5a (inlined maptiler style)
-
   if (inventory instanceof Promise) {
-    const pointsPromise = inventory.then(i => convertBasketsToSource(i))
+    const pointsPromise = inventory.then(i => {
+      if (i instanceof Array) {
+        return convertBasketsToSource(i)
+      } else {
+        return getSourceSpecification(i)
+      }
+    })
     map.on('load', () => {
       pointsPromise.then(p => addPoints(p, map))
     })

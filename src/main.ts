@@ -4,6 +4,7 @@ import { LatLngBoundsLiteral, LatLng } from 'src/types/latlng';
 import { setupLeaflet } from 'src/components/leaflet';
 import { setupContainer } from './components/maplibregl';
 import inventoryfeaturecollection from 'src/assets/inventory_geojson.json'
+import inventoryfeaturecollectionUrl from 'src/assets/inventory_geojson.json?url'
 import { DSNYBasket } from './types/inventory';
 import { measurePerf } from './util/observability';
 import { FeatureCollection } from 'geojson';
@@ -20,6 +21,10 @@ import { FeatureCollection } from 'geojson';
 //     reject(e)
 //   }
 // })
+
+const inventoryFeatureCollectionPromise = fetch(inventoryfeaturecollectionUrl).then(r => {
+  return r.json()
+})
 
 document.querySelector<HTMLDivElement>('body')!.innerHTML
   = `
