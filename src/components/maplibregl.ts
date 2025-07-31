@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { Feature, FeatureCollection } from 'geojson';
 import { DSNY_COLOR } from './styles';
 
+<<<<<<< HEAD
 import { convertBasketsToFeatureCollection } from 'src/util/model';
 
 
@@ -33,6 +34,9 @@ function addPoints(points: SourceSpecification, map: Map) {
       'circle-opacity': 0.5
     }
   });
+=======
+import style from './maptilerstyle'
+>>>>>>> a958a5a (inlined maptiler style)
 
   map.addLayer({
     'id': 'baskets-zoomed-2',
@@ -76,17 +80,35 @@ function getSourceSpecification(fc: FeatureCollection): SourceSpecification {
 export function setupContainer(container: HTMLDivElement, center: LatLngExpression, bounds: LatLngBoundsLiteral, inventory: Promise<DSNYBasket[]> | FeatureCollection) {
   // let rect = container.getBoundingClientRect();
   // container.style.height = `${rect.width * 2 / 3}px`; // 3:2 aspect ratio
+  //
 
   const map = new Map({
     container: container, // container id
     // style: 'https://demotiles.maplibre.org/style.json', // style URL
-    style: "https://api.maptiler.com/maps/777daf37-50e3-4c3c-a645-c13a66e712e3/style.json?key=b4p171PlFelOVzmDP7eS",
-    // style: style,
+    // style: "https://api.maptiler.com/maps/777daf37-50e3-4c3c-a645-c13a66e712e3/style.json?key=b4p171PlFelOVzmDP7eS",
+    style: style,
     center: center, // starting position [lng, lat]
     zoom: 11, // starting zoom
     maxBounds: [bounds[0], bounds[1]]
   });
 
+<<<<<<< HEAD
+=======
+
+  const points = convertBasketsToSource(inventory)
+  map.on('load', () => {
+    map.addSource('baskets', points)
+    map.addLayer({
+      'id': 'baskets',
+      'type': 'circle',
+      'source': 'baskets',
+      'paint': {
+        'circle-color': DSNY_COLOR,
+        'circle-radius': 1.2,
+        'circle-opacity': 0.5
+      }
+    });
+>>>>>>> a958a5a (inlined maptiler style)
 
   if (inventory instanceof Promise) {
     const pointsPromise = inventory.then(i => convertBasketsToSource(i))
