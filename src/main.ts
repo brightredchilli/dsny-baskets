@@ -27,7 +27,7 @@ import { FeatureCollection } from 'geojson';
 
 document.querySelector<HTMLDivElement>('body')!.innerHTML
   = `
-  <div class="bg-white dark:bg-slate-800 min-h-screen text-slate-800 dark:text-slate-50">
+  <div class="bg-white dark:bg-slate-800 min-h-screen text-slate-800">
     <div class='w-full mx-auto'>
       <div id="container" class="absolute h-screen w-screen">
       </div>
