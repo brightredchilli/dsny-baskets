@@ -3,10 +3,9 @@ import './main.css'
 import { LatLngBoundsLiteral, LatLng } from 'src/types/latlng';
 import { setupLeaflet } from 'src/components/leaflet';
 import { setupContainer } from './components/maplibregl';
-import inventoryfeaturecollection from 'src/assets/inventory_geojson.json'
-import { DSNYBasket } from './types/inventory';
-import { measurePerf } from './util/observability';
+import inventory from 'src/assets/inventory_geojson.json'
 import { FeatureCollection } from 'geojson';
+
 
 // const worker = new Worker(new URL('./inventory_worker.ts', import.meta.url), { type: 'module' });
 // const obs = measurePerf('worker load')
@@ -57,4 +56,4 @@ const nyc_bounds: LatLngBoundsLiteral = [{ lat: 40.38264, lng: -74.33015 }, { la
 // parse the csv in a worker thread, and return the results in a promise
 let container = document.getElementById("container") as HTMLDivElement;
 // setupLeaflet(container, nyc_center, nyc_bounds, inventory);
-setupContainer(container, nyc_center, nyc_bounds, inventoryfeaturecollection as FeatureCollection);
+setupContainer(container, nyc_center, nyc_bounds, inventory as FeatureCollection);
